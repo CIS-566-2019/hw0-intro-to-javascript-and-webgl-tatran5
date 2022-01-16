@@ -1,6 +1,7 @@
 import {vec3} from 'gl-matrix';
 import * as Stats from 'stats-js';
 import * as DAT from 'dat-gui';
+import { Cube } from './geometry/Cube';
 import Icosphere from './geometry/Icosphere';
 import Square from './geometry/Square';
 import OpenGLRenderer from './rendering/gl/OpenGLRenderer';
@@ -15,11 +16,14 @@ const controls = {
   'Load Scene': loadScene, // A function pointer, essentially
 };
 
+let cube: Cube;
 let icosphere: Icosphere;
 let square: Square;
 let prevTesselations: number = 5;
 
 function loadScene() {
+	cube = new Cube(vec3.fromValues(0, 0, 0));
+	cube.create();
   icosphere = new Icosphere(vec3.fromValues(0, 0, 0), 1, controls.tesselations);
   icosphere.create();
   square = new Square(vec3.fromValues(0, 0, 0));
@@ -77,7 +81,8 @@ function main() {
       icosphere.create();
     }
     renderer.render(camera, lambert, [
-      icosphere,
+      cube
+			// icosphere,
       // square,
     ]);
     stats.end();
